@@ -1,0 +1,14 @@
+#!/bin/sh
+
+GOLATEST=$(curl https://go.dev/VERSION?m=text | grep go)".linux-amd64.tar.gz"
+
+cd /home/tdeneire/tmp  || exit
+wget "https://go.dev/dl/$GOLATEST"
+
+sudo rm -rf /usr/local/go 
+
+sudo tar -C /usr/local -xzf "$GOLATEST"
+
+go version
+
+rm /home/tdeneire/tmp/"$GOLATEST"

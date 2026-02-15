@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cd /home/tdeneire/projects/code/go/sesh
+git pull
+mv sesh sesh.bak
+go build

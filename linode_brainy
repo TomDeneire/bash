@@ -1,0 +1,5 @@
+#!/bin/bash
+LAST_WINDOW_INDEX=$(tmux display-message -p -F '#{session_windows}')
+let "NEXT_WINDOW_INDEX = $LAST_WINDOW_INDEX + 1"
+tmux new-window -n "therapeutnaomilombaert.be" "tmux set -pt:$NEXT_WINDOW_INDEX window-style fg=green && ssh root@172.104.142.227"
+

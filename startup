@@ -1,0 +1,34 @@
+#!/bin/bash
+
+CURRENT_DATE=$(date +"%F")
+PREVIOUS_DATE=$(cat ~/projects/code/bash/lastupdate.txt)
+
+if [ "$PREVIOUS_DATE" != "$CURRENT_DATE" ]; then
+    # check internet connection
+    wget -q --spider https://google.com
+    if [ $? -eq 0 ]; then
+        # execute update script
+        /home/tdeneire/projects/code/bash/update
+        # log update time
+        date +"%F" > /home/tdeneire/projects/code/bash/lastupdate.txt
+    else
+        echo "No internet connection. Cannot perform full update."
+    fi
+    # log system info to file
+    /home/tdeneire/projects/code/bash/systeminfo
+    # clean up directories
+    sudo find /home/tdeneire/Downloads -type f -mtime +30 -delete
+    sudo find /home/tdeneire/Downloads -type d -mtime +30 | xargs rm -rf
+    sudo find /home/tdeneire/.local/share/Trash -type f -mtime +30 -delete
+    sudo find /home/tdeneire/.local/share/Trash -type d -mtime +30 | xargs rm -rf
+    sudo find /home/tdeneire/tmp -type f -mtime +30 -delete
+    sudo find /home/tdeneire/tmp -type d -mtime +30 | xargs rm -rf
+    # remove old docker containers
+    # sudo docker container prune -f
+    # show disk usage
+    sudo df -h
+else
+    echo "No update needed"
+fi
+neofetch
+exit

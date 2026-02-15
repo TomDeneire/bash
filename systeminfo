@@ -1,0 +1,39 @@
+#!/bin/sh
+
+myconfigfile="/home/tdeneire/Dropbox/XPS-15-9530.txt"
+hr="----------------------------"
+
+rm "$myconfigfile"
+touch "$myconfigfile"
+
+echo "$hr" >> "$myconfigfile"
+echo "/etc/linuxmint/info" >> "$myconfigfile"
+echo "$hr" >> "$myconfigfile"
+cat /etc/linuxmint/info >> "$myconfigfile"
+
+echo "$hr" >> "$myconfigfile"
+echo "df" >> "$myconfigfile"
+echo "$hr" >> "$myconfigfile"
+sudo df -h -T >> "$myconfigfile"
+
+echo "$hr" >> "$myconfigfile"
+echo "lshw" >> "$myconfigfile"
+echo "$hr" >> "$myconfigfile"
+sudo lshw >> "$myconfigfile"
+
+echo "$hr" >> "$myconfigfile"
+echo "printenv" >> "$myconfigfile"
+echo "$hr" >> "$myconfigfile"
+printenv >> "$myconfigfile"
+
+echo "$hr" >> "$myconfigfile"
+echo "Python3 requirements" >> "$myconfigfile"
+echo "$hr" >> "$myconfigfile"
+py3 -m pip freeze >> "$myconfigfile"
+
+echo "$hr" >> "$myconfigfile"
+echo "Locally installed binaries" >> "$myconfigfile"
+ls -l /home/tdeneire/bin >> "$myconfigfile"
+ls -l /usr/bin >> "$myconfigfile"
+ls -l /usr/local/bin >> "$myconfigfile"
+ls -l /home/tdeneire/.local/bin >> "$myconfigfile"

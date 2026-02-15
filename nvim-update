@@ -1,0 +1,10 @@
+#!/bin/sh
+
+cd /home/tdeneire || exit 1
+rm -rf nvim-linux-x86_64-old
+mv nvim-linux-x86_64 nvim-linux-x86_64-old
+wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz
+tar xzvf nvim-linux-x86_64.tar.gz
+rm nvim-linux-x86_64.tar.gz
+rm /home/tdeneire/bin/nvim
+ln -s /home/tdeneire/nvim-linux-x86_64/bin/nvim /home/tdeneire/bin/nvim
