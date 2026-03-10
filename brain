@@ -1,6 +1,0 @@
-#!/bin/sh
-
-virtualenv="/home/tdeneire/projects/websites/brainmanager/development/bin/activate"
-manage="/home/tdeneire/projects/websites/brainmanager/development/brainmanager/manage.py"
-
-. $virtualenv && py3.8 $manage  runserver 8080

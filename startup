@@ -14,8 +14,6 @@ if [ "$PREVIOUS_DATE" != "$CURRENT_DATE" ]; then
     else
         echo "No internet connection. Cannot perform full update."
     fi
-    # log system info to file
-    /home/tdeneire/projects/code/bash/systeminfo
     # clean up directories
     sudo find /home/tdeneire/Downloads -type f -mtime +30 -delete
     sudo find /home/tdeneire/Downloads -type d -mtime +30 | xargs rm -rf
