@@ -5,9 +5,11 @@ SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 CURRENT_DATE=$(date +"%F")
 PREVIOUS_DATE=$(cat "$SCRIPT_DIR/lastupdate.txt" 2>/dev/null || echo "")
 
+# === Daily tasks (run once per day) ===
 if [ "$PREVIOUS_DATE" != "$CURRENT_DATE" ]; then
     if ping -c1 -W2 google.com &>/dev/null; then
         sudo apt-get update && sudo apt-get upgrade -y && sudo apt clean -y
+        sudo apt autoremove -y
         hop backup && date +"%F" > "$SCRIPT_DIR/lastupdate.txt"
     else
         echo "No internet connection. Cannot perform full update."
@@ -18,12 +20,35 @@ if [ "$PREVIOUS_DATE" != "$CURRENT_DATE" ]; then
         [ -d "$dir" ] && find "$dir" -mindepth 1 -mtime +30 -delete 2>/dev/null
     done
 
-    # remove old docker containers
-    docker container prune -f
+    # trim systemd journal logs older than 30 days
+    sudo journalctl --vacuum-time=30d
 
-    df -h
+    # remove old docker containers and dangling images
+    sudo docker container prune -f
+    sudo docker image prune -f
 else
     echo "No update needed"
 fi
 
+# === System info (always shown, errors non-fatal) ===
+set +e
 neofetch
+
+echo ""
+echo "--- Disk usage ---"
+df -h
+echo ""
+echo "--- Directory sizes ---"
+du -sh "$HOME/projects" "$HOME/Dropbox" "$HOME/.local/share" 2>/dev/null | sort -rh
+echo ""
+echo "--- Large files (>500MB) ---"
+find "$HOME" -maxdepth 4 -type f -size +500M -not -path "*/.cache/*" -not -path "*/.local/share/Steam/*" 2>/dev/null || echo "  None found"
+echo ""
+echo "--- Docker disk usage ---"
+sudo docker system df 2>/dev/null || true
+echo ""
+echo "--- Failed services ---"
+systemctl --failed --no-pager 2>/dev/null || true
+echo ""
+echo "--- Uptime ---"
+uptime -s
