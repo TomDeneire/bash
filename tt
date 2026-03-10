@@ -1,0 +1,6 @@
+#!/bin/bash
+result=$(zoxide query -l | fzf --height 40% --reverse --border)
+# Only cd if we actually picked something (avoids errors on ESC)
+if [ -n "$result" ]; then
+cd "$result"
+fi
