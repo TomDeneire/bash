@@ -1,3 +1,5 @@
 #!/bin/sh
 
+lsd --version
 cargo install lsd
+lsd --version

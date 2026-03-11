@@ -1,5 +1,6 @@
 #!/bin/sh
 
+go version
 GOLATEST=$(curl https://go.dev/VERSION?m=text | grep go)".linux-amd64.tar.gz"
 
 cd /home/tdeneire/tmp  || exit
