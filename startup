@@ -6,6 +6,7 @@ CURRENT_DATE=$(date +"%F")
 PREVIOUS_DATE=$(cat "$SCRIPT_DIR/lastupdate.txt" 2>/dev/null || echo "")
 
 # === Daily tasks (run once per day) ===
+set +e
 if [ "$PREVIOUS_DATE" != "$CURRENT_DATE" ]; then
     if ping -c1 -W2 google.com &>/dev/null; then
         sudo apt-get update && sudo apt-get upgrade -y && sudo apt clean -y
@@ -31,7 +32,6 @@ else
 fi
 
 # === System info (always shown, errors non-fatal) ===
-set +e
 neofetch
 
 echo ""
