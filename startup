@@ -21,6 +21,18 @@ if [ "$PREVIOUS_DATE" != "$CURRENT_DATE" ]; then
         [ -d "$dir" ] && find "$dir" -mindepth 1 -mtime +30 -delete 2>/dev/null
     done
 
+    # clear specific "junk"
+    rm -rf ~/.cache/.fr-* ~/.cache/thumbnails/* ~/.cache/gstreamer-1.0
+
+    # trim massive dev caches only if they exceed a certain age
+    # this deletes files in these caches that haven't been accessed in 7 days
+    find ~/.cache/uv -type f -atime +7 -delete 2>/dev/null
+    find ~/.cache/go-build -type f -atime +7 -delete 2>/dev/null
+
+    # clean Google Chrome cache specifically
+    # (removes files older than 14 days)
+    find ~/.cache/google-chrome -type f -mtime +14 -delete 2>/dev/null
+
     # trim systemd journal logs older than 30 days
     sudo journalctl --vacuum-time=30d
 
