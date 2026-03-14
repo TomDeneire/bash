@@ -64,3 +64,5 @@ systemctl --failed --no-pager 2>/dev/null || true
 echo ""
 echo "--- Uptime ---"
 uptime -s
+echo "Press Enter to close..."
+read
