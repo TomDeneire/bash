@@ -41,9 +41,10 @@ if [ "$PREVIOUS_DATE" != "$CURRENT_DATE" ]; then
     sudo docker image prune -f
 else
     echo "No update needed"
+    exit 0
 fi
 
-# === System info (always shown, errors non-fatal) ===
+# === System info (shown on first run of the day) ===
 neofetch
 
 echo ""
